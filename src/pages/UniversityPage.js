@@ -18,22 +18,16 @@
 import buildingLogo from 'assets/img/logo/building.jpg';
 import React from 'react';
 // import { Bar, Line } from 'react-chartjs-2';
-// import {
-//   MdBubbleChart,
-//   MdInsertChart,
-//   MdPersonPin,
-//   MdPieChart,
-//   MdRateReview,
-//   MdShare,
-//   MdShowChart,
-//   MdThumbUp,
-// } from 'react-icons/md';
+import {
+  MdFavorite,
+} from 'react-icons/md';
 // import InfiniteCalendar from 'react-infinite-calendar';
 import {
   Card,
   CardBody,
   CardTitle,
   CardText,
+  Button,
   Col,
   CardImg,
   Row,
@@ -74,18 +68,25 @@ class DashboardPage extends React.Component {
 
             <Col lg={3} md={4} sm={6} xs={12} className="mb-3" key={index}>
               <Card>
+                <span className="favorite-button">
+                  <MdFavorite className={data.isLove ? 'love-tag' : ''} onClick={() => props.toggleFavoriteList(index)} />
+
+                </span>
                 <CardImg top src={buildingLogo} />
                 <CardBody>
                   <CardTitle>{data.name}</CardTitle>
                   <CardText>
                     {data.country}
                     <br />
-                    <div className="text-center text-primary">
-                      <a href={data.web_pages} target="_blank" rel="noreferrer">
+                    <a href={data.web_pages} target="_blank" rel="noreferrer">
+                      <Button
+                        size="lg"
+                        color="primary"
+                        block
+                      >
                         Website
-                      </a>
-                    </div>
-
+                      </Button>
+                    </a>
                   </CardText>
                 </CardBody>
               </Card>
@@ -102,10 +103,12 @@ class DashboardPage extends React.Component {
 const mapStateToProps = (state) => ({
   isFetchList: state.StoreUniversity.listUniversity.fetch,
   listData: state.StoreUniversity.listUniversity.data,
+  reRender: state.StoreUniversity.listUniversity.reRender,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   requestListUniversity: (req) => dispatch(actionUniversity.requestListUniversity(req)),
+  toggleFavoriteList: (req) => dispatch(actionUniversity.receiveData(req, 'SET_FAVORITE_UNIVERSITY')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);

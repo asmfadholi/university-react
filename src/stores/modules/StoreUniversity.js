@@ -5,13 +5,26 @@ import { actionNotification } from './StoreNotification';
 const pre = 'StoreUniversity/';
 
 const initState = {
-  listUniversity: { fetch: false, error: false, data: null },
+  listUniversity: {
+    fetch: false, error: false, data: null, reRender: false,
+  },
 };
 
 export default function StoreUniversity(state = initState, action) {
   switch (action.type) {
     case `${pre}SET_LIST_UNIVERSITY`:
       return { ...state, listUniversity: action.data };
+    case `${pre}SET_FAVORITE_UNIVERSITY`: {
+      const { listUniversity } = state;
+      listUniversity.data[action.data].isLove = !listUniversity.data[action.data].isLove;
+      return {
+        ...state,
+        listUniversity: {
+          ...listUniversity,
+          reRender: !listUniversity.reRender,
+        },
+      };
+    }
     default:
       return state;
   }
@@ -24,6 +37,7 @@ export const actionUniversity = {
       data: res,
     };
   },
+
   requestListUniversity(req) {
     return async (dispatch) => {
       const { success, error } = NOTIFICATION_OPTIONS.topCenter;
