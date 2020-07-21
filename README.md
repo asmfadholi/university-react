@@ -1,6 +1,6 @@
 ## Quick Start
 
-[![Greenkeeper badge](https://asmfadholi.github.io/#/)](https://asmfadholi.github.io/#/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/jaredpalmer/razzle.svg)](https://asmfadholi.github.io/#/)
 
 ```bash
 cp .env-example .env 
