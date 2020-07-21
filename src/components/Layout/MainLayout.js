@@ -10,7 +10,7 @@ function MainLayout(props) {
     <main className="cr-app bg-light">
       <Content fluid>
         <Header />
-        <Container fluid>
+        <Container fluid className="container-home">
           {children}
         </Container>
         <Footer />
