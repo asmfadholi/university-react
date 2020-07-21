@@ -1,18 +1,23 @@
 import {
-  Footer, Header,
+  Footer, Header, Content,
 } from 'components/Layout';
 import { Container } from 'reactstrap';
+// import {
+//   Content, Footer, Header, Sidebar,
+// } from 'components/Layout';
 import React from 'react';
 
 function MainLayout(props) {
   const { children } = props;
   return (
     <main className="cr-app bg-light">
-      <Container fluid>
+      <Content fluid>
         <Header />
-        {children}
+        <Container fluid>
+          {children}
+        </Container>
         <Footer />
-      </Container>
+      </Content>
     </main>
   );
 }

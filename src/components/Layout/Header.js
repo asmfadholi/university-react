@@ -80,7 +80,7 @@ class Header extends React.Component {
   render() {
     const { state, props } = this;
     return (
-      <Navbar expand="md" light className={bem.b('bg-white')}>
+      <Navbar expand="md" light className={bem.b('bg-white')} fixed="top">
 
         <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
         <Collapse isOpen={!state.isToggleNavbar} navbar>
