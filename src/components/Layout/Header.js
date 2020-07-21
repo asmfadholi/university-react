@@ -1,171 +1,210 @@
 import Avatar from 'components/Avatar';
 import { UserCard } from 'components/Card';
-import Notifications from 'components/Notifications';
-import SearchInput from 'components/SearchInput';
-// import { notificationsData } from 'demos/header';
-// import withBadge from 'hocs/withBadge';
 import React from 'react';
 import {
-  MdClearAll,
   MdExitToApp,
-  MdHelp,
-  MdInsertChart,
-  MdMessage,
-  // MdNotificationsActive,
-  // MdNotificationsNone,
-  MdPersonPin,
-  MdSettingsApplications,
+  MdHome,
+  MdAccountBalance,
+  MdFavorite,
 } from 'react-icons/md';
 import {
-  Button,
   ListGroup,
   ListGroupItem,
-  // NavbarToggler,
+  NavbarToggler,
+  Collapse,
   Nav,
+  Button,
+  Modal,
+  ModalHeader,
+  Spinner,
+  ModalFooter,
   Navbar,
   NavItem,
   NavLink as BSNavLink,
   Popover,
   PopoverBody,
 } from 'reactstrap';
-import bn from 'utils/bemnames';
 import { NavLink } from 'react-router-dom';
-// import {
-//   NavLink as BSNavLink,
-// } from 'reactstrap';
+import bn from 'utils/bemnames';
+import { connect } from 'react-redux';
+import { actionAuth } from 'stores/index';
 
 const bem = bn.create('header');
-
-// const MdNotificationsActiveWithBadge = withBadge({
-//   size: 'md',
-//   color: 'primary',
-//   style: {
-//     top: -10,
-//     right: -10,
-//     display: 'inline-flex',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   children: <small>5</small>,
-// })(MdNotificationsActive);
 
 class Header extends React.Component {
   state = {
     isOpenNotificationPopover: false,
     isNotificationConfirmed: false,
     isOpenUserCardPopover: false,
+    isToggleNavbar: true,
+    modal: false,
   };
 
-  toggleNotificationPopover = () => {
-    const { isNotificationConfirmed } = this.state;
+  toggle = (modalType) => () => {
+    if (!modalType) {
+      this.setState((prevState) => ({
+        ...prevState,
+        modal: !prevState.modal,
+      }));
+    }
+  }
+
+  checkActive = (match, location) => {
+    // some additional logic to verify you are in the home URI
+    if (!location) return false;
+    const { pathname } = location;
+    return pathname === '/';
+  }
+
+  toggleNavbar = () => {
     this.setState((prevState) => ({
       ...prevState,
-      isOpenNotificationPopover: !prevState.isOpenNotificationPopover,
+      isToggleNavbar: !prevState.isToggleNavbar,
     }));
-
-    if (!isNotificationConfirmed) {
-      this.setState({ isNotificationConfirmed: true });
-    }
-  };
+  }
 
   toggleUserCardPopover = () => {
     this.setState((prevState) => ({
       ...prevState,
       isOpenUserCardPopover: !prevState.isOpenUserCardPopover,
     }));
-  };
+  }
 
-  handleSidebarControlButton = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
-  };
+  requestLogout = () => {
+    this.toggle()();
+    this.toggleNavbar();
+    const { props } = this;
+    props.requestLogout();
+  }
 
   render() {
-    const {
-      // isNotificationConfirmed,
-      // isOpenNotificationPopover,
-      isOpenUserCardPopover,
-    } = this.state;
+    const { state, props } = this;
     return (
-      <Navbar light expand className={bem.b('bg-white')}>
-        <Nav navbar className="mr-2">
-          <Button outline onClick={this.handleSidebarControlButton}>
-            <MdClearAll size={25} />
-          </Button>
-        </Nav>
-        <Nav navbar>
-          <SearchInput />
-        </Nav>
+      <Navbar expand="md" light className={bem.b('bg-white')}>
 
-        <Nav navbar className={bem.e('nav-right')}>
-          <NavItem className="d-inline-flex" />
+        <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
+        <Collapse isOpen={!state.isToggleNavbar} navbar>
+          <Nav navbar>
+            <NavItem>
+              <BSNavLink tag={NavLink} isActive={this.checkActive} to="/">
+                <MdHome className="mr-2" />
+                Home
+              </BSNavLink>
+            </NavItem>
+            <NavItem>
+              <BSNavLink tag={NavLink} to="/university">
+                <MdAccountBalance className="mr-2" />
+                University
+              </BSNavLink>
+            </NavItem>
+            { props.isLogin ? (
+              <>
+                <NavItem>
+                  <BSNavLink tag={NavLink} to="/favorite">
+                    <MdFavorite className="mr-2" />
+                    Favorite
+                  </BSNavLink>
+                </NavItem>
 
-          <NavItem>
-            <BSNavLink id="Popover2">
-              <Avatar
-                onClick={this.toggleUserCardPopover}
-                className="can-click"
-              />
-            </BSNavLink>
-            <Popover
-              placement="bottom-end"
-              isOpen={isOpenUserCardPopover}
-              toggle={this.toggleUserCardPopover}
-              target="Popover2"
-              className="p-0 border-0"
-              style={{ minWidth: 250 }}
+                <NavItem className="signout-breakpoint" onClick={this.toggle()}>
+                  <BSNavLink>
+                    <MdExitToApp className="mr-2" />
+                    Sign out
+                  </BSNavLink>
+                </NavItem>
+              </>
+            ) : (
+              <NavItem>
+                <BSNavLink tag={NavLink} to="/login">
+                  <MdExitToApp className="mr-2" />
+                  Sign in
+                </BSNavLink>
+              </NavItem>
+            )}
+          </Nav>
+        </Collapse>
+
+        <Nav navbar className={`${bem.e('nav-right')} profile-navbar`}>
+          { props.isLogin ? (
+            <NavItem>
+              <BSNavLink id="Popover2">
+                <Avatar
+                  onClick={this.toggleUserCardPopover}
+                  className="can-click"
+                />
+              </BSNavLink>
+              <Popover
+                placement="bottom-end"
+                isOpen={state.isOpenUserCardPopover}
+                toggle={this.toggleUserCardPopover}
+                target="Popover2"
+                className="p-0 border-0"
+                style={{ minWidth: 250 }}
+              >
+                <PopoverBody className="p-0 border-light">
+                  <UserCard
+                    title="Jane"
+                    subtitle="jane@jane.com"
+                    text="Last updated 3 mins ago"
+                    className="border-light"
+                  >
+                    <ListGroup flush>
+
+                      <ListGroupItem onClick={this.toggle()} action className="border-light">
+                        <MdExitToApp />
+                        {' '}
+                        Sign Out
+                      </ListGroupItem>
+
+                    </ListGroup>
+                  </UserCard>
+                </PopoverBody>
+              </Popover>
+            </NavItem>
+          ) : (
+            <NavItem>
+              <BSNavLink href="/login">
+                <MdExitToApp className="mr-2" />
+                Sign in
+              </BSNavLink>
+            </NavItem>
+          ) }
+
+        </Nav>
+        <Modal
+          isOpen={state.modal}
+          toggle={this.toggle()}
+        >
+          <ModalHeader>
+            Are you sure you want to log out ?
+          </ModalHeader>
+          <ModalFooter>
+            <Button color="primary" onClick={this.toggle()}>
+              Cancel
+            </Button>
+            {' '}
+            <Button
+              color="secondary"
+              disabled={props.isFetchLogout}
+              onClick={this.requestLogout}
             >
-              <PopoverBody className="p-0 border-light">
-                <UserCard
-                  title="Jane"
-                  subtitle="jane@jane.com"
-                  text="Last updated 3 mins ago"
-                  className="border-light"
-                >
-                  <ListGroup flush>
+              { !props.isFetchLogout ? 'Yes' : <Spinner /> }
+            </Button>
+          </ModalFooter>
+        </Modal>
 
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdPersonPin />
-                      {' '}
-                      Profile
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdInsertChart />
-                      {' '}
-                      Stats
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdMessage />
-                      {' '}
-                      Messages
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdSettingsApplications />
-                      {' '}
-                      Settings
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdHelp />
-                      {' '}
-                      Help
-                    </ListGroupItem>
-                    <ListGroupItem tag={NavLink} to="/logout" action className="border-light">
-                      <MdExitToApp />
-                      {' '}
-                      Signout
-                    </ListGroupItem>
-
-                  </ListGroup>
-                </UserCard>
-              </PopoverBody>
-            </Popover>
-          </NavItem>
-        </Nav>
       </Navbar>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+  isFetchLogout: state.StoreAuth.isLogin.fetch,
+  isLogin: state.StoreAuth.isLogin.status,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  requestLogout: (props) => dispatch(actionAuth.requestLogout(props)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

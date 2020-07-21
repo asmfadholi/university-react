@@ -1,5 +1,5 @@
 import { STATE_LOGIN, STATE_FORGOT_PASSWORD } from 'components/AuthForm';
-import { EmptyLayout, MainLayout } from 'components/Layout';
+import { EmptyLayout, MainLayout, LayoutRoute } from 'components/Layout';
 import PageSpinner from 'components/PageSpinner';
 import React from 'react';
 import PropTypes from 'utils/propTypes';
@@ -9,14 +9,16 @@ import { connect } from 'react-redux';
 import { NOTIFICATION_SYSTEM_STYLE } from 'utils/constants';
 import NotificationSystem from 'react-notification-system';
 import './styles/reduction.scss';
+import AuthPage from 'pages/AuthPage';
 
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const BlankPage = React.lazy(() => import('./pages/BlankPage'));
-const AuthPage = React.lazy(() => import('pages/AuthPage'));
+// const AuthPage = React.lazy(() => import('pages/AuthPage'));
 
 // middleware
 const AuthenticatedRoute = React.lazy(() => import('./middleware/AuthenticatedRoute'));
 const UnauthenticatedRoute = React.lazy(() => import('./middleware/UnauthenticatedRoute'));
+const GeneralRoute = React.lazy(() => import('./middleware/GeneralRoute'));
 
 class App extends React.Component {
   componentDidUpdate(prevProps) {
@@ -35,13 +37,27 @@ class App extends React.Component {
 
   render() {
     const { props } = this;
-    const Layout = props.isAuthenticated ? MainLayout : EmptyLayout;
+    // const pathName = window.location.pathname;
+    const Layout = MainLayout;
+    console.log(window.location.pathname);
     return (
       <>
         <Switch>
-          <Layout breakpoint={props.breakpoint}>
+          <LayoutRoute
+            exact
+            path="/login"
+            layout={EmptyLayout}
+            appProps={{
+              isAuthenticated: props.isAuthenticated,
+            }}
+            component={(propss) => (
+              <AuthPage {...propss} authState={STATE_LOGIN} />
+            )}
+          />
+
+          <Layout breakpoint={props.breakpoint} isAuthenticated={props.isAuthenticated}>
             <React.Suspense fallback={<PageSpinner />}>
-              <AuthenticatedRoute
+              <GeneralRoute
                 exact
                 path="/"
                 component={DashboardPage}
@@ -53,15 +69,6 @@ class App extends React.Component {
                 exact
                 path="/logout"
                 component={BlankPage}
-                appProps={{
-                  isAuthenticated: props.isAuthenticated,
-                }}
-              />
-              <UnauthenticatedRoute
-                exact
-                path="/login"
-                component={AuthPage}
-                authState={STATE_LOGIN}
                 appProps={{
                   isAuthenticated: props.isAuthenticated,
                 }}

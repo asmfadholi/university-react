@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bootstrap": "4.3.1",
+    "razzle-plugin-workbox": "^1.0.3",
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
     "express": "4.17.1",
@@ -31,7 +32,6 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "razzle-plugin-workbox": "^1.0.3",
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
     "babel-eslint": "^10.1.0",

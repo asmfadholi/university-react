@@ -18,3 +18,15 @@
   //   }
   // }
 }
+
+@include media-breakpoint-down(md) {
+  .profile-navbar {
+    display: none;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .signout-breakpoint {
+    display: none;
+  }
+}

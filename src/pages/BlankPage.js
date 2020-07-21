@@ -5,7 +5,6 @@ import { actionAuth } from 'stores/index';
 class BlankPage extends React.Component {
   componentDidMount() {
     const { props } = this;
-    props.history.push('/');
     props.requestLogout();
   }
 
