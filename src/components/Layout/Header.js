@@ -114,7 +114,7 @@ class Header extends React.Component {
                 </NavItem>
               </>
             ) : (
-              <NavItem>
+              <NavItem className="signout-breakpoint">
                 <BSNavLink tag={NavLink} to="/login">
                   <MdExitToApp className="mr-2" />
                   Sign in
@@ -163,7 +163,7 @@ class Header extends React.Component {
             </NavItem>
           ) : (
             <NavItem>
-              <BSNavLink href="/login">
+              <BSNavLink tag={NavLink} to="/login">
                 <MdExitToApp className="mr-2" />
                 Sign in
               </BSNavLink>
