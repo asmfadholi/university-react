@@ -1,6 +1,6 @@
 ## Quick Start
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/jaredpalmer/razzle.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://asmfadholi.github.io/#/)](https://asmfadholi.github.io/#/)
 
 ```bash
 cp .env-example .env 
@@ -12,6 +12,8 @@ npm run serve
 Then open http://localhost:5000/ to see your app. Your console should look like this:
 
 <img src="https://raw.githubusercontent.com/asmfadholi/assets/master/assets/Screen%20Shot%202020-07-22%20at%2001.55.57.png" width="500px" alt="Razzle Development Mode"/>
+
+---
 
 Below is a list of commands you will probably find useful.
 
