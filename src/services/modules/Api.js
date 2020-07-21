@@ -14,4 +14,16 @@ export default {
     );
     return api;
   },
+  generateApiLocal() {
+    const api = axios.create({
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    api.interceptors.response.use(
+      (response) => response.data,
+      (error) => Promise.reject(error),
+    );
+    return api;
+  },
 };
