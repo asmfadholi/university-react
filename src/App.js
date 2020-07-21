@@ -15,7 +15,7 @@ const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 // const AuthPage = React.lazy(() => import('pages/AuthPage'));
 
 // middleware
-const AuthenticatedRoute = React.lazy(() => import('./middleware/AuthenticatedRoute'));
+// const AuthenticatedRoute = React.lazy(() => import('./middleware/AuthenticatedRoute'));
 const UnauthenticatedRoute = React.lazy(() => import('./middleware/UnauthenticatedRoute'));
 const GeneralRoute = React.lazy(() => import('./middleware/GeneralRoute'));
 

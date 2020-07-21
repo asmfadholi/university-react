@@ -6,6 +6,7 @@
     "serve": "razzle start",
     "build": "razzle build",
     "heroku-postbuild": "npm run build",
+    "lint": "eslint --ext .js --ignore-path .gitignore .",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
@@ -45,11 +46,16 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "husky": "^4.2.5",
     "is-heroku": "^2.0.0",
+    "lint-staged": "^10.2.11",
     "razzle-plugin-scss": "^3.1.5",
     "react-dev-utils": "^10.2.1"
   },
+  "lint-staged": {
+    "*.{js}": "npm run lint"
+  },
   "husky": {
     "hooks": {
+      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
