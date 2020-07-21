@@ -5,10 +5,10 @@ import { actionNotification } from './StoreNotification';
 const pre = 'StoreUniversity/';
 
 const initState = {
-  listUniversity: { fetch: false, error: false, data: [] },
+  listUniversity: { fetch: false, error: false, data: null },
 };
 
-export default function StoreAuth(state = initState, action) {
+export default function StoreUniversity(state = initState, action) {
   switch (action.type) {
     case `${pre}SET_LIST_UNIVERSITY`:
       return { ...state, listUniversity: action.data };
@@ -17,7 +17,7 @@ export default function StoreAuth(state = initState, action) {
   }
 }
 
-export const actionAuth = {
+export const actionUniversity = {
   receiveData(res, name) {
     return {
       type: pre + name,
@@ -31,8 +31,8 @@ export const actionAuth = {
       error.message = 'Get list university failed';
       try {
         dispatch(this.receiveData({ fetch: true, error: false, data: null }, 'SET_LIST_UNIVERSITY'));
-        const res = await Api.userLogin(req);
-        dispatch(this.receiveData({ fetch: false, error: false, data: res.data }, 'SET_LIST_UNIVERSITY'));
+        const res = await Api.universitySearch(req);
+        dispatch(this.receiveData({ fetch: false, error: false, data: res }, 'SET_LIST_UNIVERSITY'));
       } catch (err) {
         dispatch(this.receiveData({ fetch: false, error: true, data: null }, 'SET_LIST_UNIVERSITY'));
         dispatch(actionNotification.showNotification(error));

@@ -1,7 +1,7 @@
 // import { AnnouncementCard, TodosCard } from 'components/Card';
 // import HorizontalAvatarList from 'components/HorizontalAvatarList';
 // import MapWithBubbles from 'components/MapWithBubbles';
-import Page from 'components/Page';
+// import Page from 'components/Page';
 // import ProductMedia from 'components/ProductMedia';
 // import SupportTicket from 'components/SupportTicket';
 // import UserProgressTable from 'components/UserProgressTable';
@@ -15,6 +15,7 @@ import Page from 'components/Page';
 //   todosData,
 //   userProgressTableData,
 // } from 'demos/dashboardPage';
+import buildingLogo from 'assets/img/logo/building.jpg';
 import React from 'react';
 // import { Bar, Line } from 'react-chartjs-2';
 // import {
@@ -28,23 +29,18 @@ import React from 'react';
 //   MdThumbUp,
 // } from 'react-icons/md';
 // import InfiniteCalendar from 'react-infinite-calendar';
-// import {
-//   Badge,
-//   Button,
-//   Card,
-//   CardBody,
-//   CardDeck,
-//   CardGroup,
-//   CardHeader,
-//   CardTitle,
-//   Col,
-//   ListGroup,
-//   ListGroupItem,
-//   Row,
-// } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
+  Col,
+  CardImg,
+  Row,
+} from 'reactstrap';
 // import { getColor } from 'utils/colors';
 import { connect } from 'react-redux';
-import { actionNotification } from 'stores/index';
+import { actionUniversity } from 'stores/index';
 // import { NOTIFICATION_OPTIONS } from 'utils/constants';
 // import { fetchProfileData } from './fakeApi';
 
@@ -60,46 +56,56 @@ import { actionNotification } from 'stores/index';
 class DashboardPage extends React.Component {
   componentDidMount() {
     // this is needed, because InfiniteCalendar forces window scroll
+    const { props } = this;
     window.scrollTo(0, 0);
-
-    // setTimeout(() => {
-    //   if (!this.notificationSystem) {
-    //     return;
-    //   }
-
-    // const { error } = NOTIFICATION_OPTIONS.topRight;
-    // error.message = 'walau badai menghadang tak apa!';
-    // this.props.showNotification(error);
-
-    //   this.notificationSystem.addNotification({
-    //     title: '<MdLoyalty />',
-    //     message:
-    //       'baskir',
-    //     level: 'info',
-    //   });
-    // }, 2500);
+    const req = {
+      name: 'and',
+      country: 'ghana',
+    };
+    props.requestListUniversity(req);
   }
 
   render() {
-    // const primaryColor = getColor('primary');
-    // const secondaryColor = getColor('secondary');
-    // const user = resource.user.read();
+    const { props } = this;
     return (
-      <Page
-        className="DashboardPage"
-        title="Dashboard"
-        breadcrumbs={[{ name: 'Dashboard', active: true }]}
-      >
-        University
-      </Page>
+      <>
+        <Row>
+          {props.listData && props.listData.map((data, index) => (
+
+            <Col lg={3} md={4} sm={6} xs={12} className="mb-3" key={index}>
+              <Card>
+                <CardImg top src={buildingLogo} />
+                <CardBody>
+                  <CardTitle>{data.name}</CardTitle>
+                  <CardText>
+                    {data.country}
+                    <br />
+                    <div className="text-center text-primary">
+                      <a href={data.web_pages} target="_blank" rel="noreferrer">
+                        Website
+                      </a>
+                    </div>
+
+                  </CardText>
+                </CardBody>
+              </Card>
+            </Col>
+          ))}
+
+        </Row>
+
+      </>
     );
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  isFetchList: state.StoreUniversity.listUniversity.fetch,
+  listData: state.StoreUniversity.listUniversity.data,
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  showNotification: (req) => dispatch(actionNotification.showNotification(req)),
+  requestListUniversity: (req) => dispatch(actionUniversity.requestListUniversity(req)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);

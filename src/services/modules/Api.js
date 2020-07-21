@@ -3,13 +3,13 @@ import axios from 'axios';
 export default {
   generateApi() {
     const api = axios.create({
+      baseURL: process.env.RAZZLE_RUNTIME_BASE_URL,
       headers: {
-        baseURL: process.env.RAZZLE_RUNTIME_BASE_URL,
         'Content-Type': 'application/json',
       },
     });
     api.interceptors.response.use(
-      (response) => response,
+      (response) => response.data,
       (error) => Promise.reject(error),
     );
     return api;

@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import StoreTodo from './modules/StoreTodo';
 import StoreNotification, { actionNotification } from './modules/StoreNotification';
 import StoreAuth, { actionAuth } from './modules/StoreAuth';
+import StoreUniversity, { actionUniversity } from './modules/StoreUniversity';
 
 let composeEnhancers = compose;
 
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   StoreTodo,
   StoreNotification,
   StoreAuth,
+  StoreUniversity,
 });
 
 const store = createStore(
@@ -29,4 +31,5 @@ export default store;
 export {
   actionNotification,
   actionAuth,
+  actionUniversity,
 };
