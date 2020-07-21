@@ -6,7 +6,7 @@
     "serve": "razzle start",
     "build": "razzle build",
     "heroku-postbuild": "npm run build",
-    "lint": "eslint --ext .js --ignore-path .gitignore .",
+    "lint": "eslint --ext .js --ignore-path .gitignore ./src",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
