@@ -17,6 +17,8 @@
 // } from 'demos/dashboardPage';
 import buildingLogo from 'assets/img/logo/building.jpg';
 import React from 'react';
+import SearchInput from 'components/SearchInput';
+
 // import { Bar, Line } from 'react-chartjs-2';
 import {
   MdFavorite,
@@ -63,6 +65,13 @@ class DashboardPage extends React.Component {
     const { props } = this;
     return (
       <>
+        <div className="d-flex align-content-center justify-content-center search-field">
+          <SearchInput placeholder="University" />
+          <SearchInput placeholder="Country" />
+          <Button>Search</Button>
+        </div>
+
+        <br />
         <Row>
           {props.listData && props.listData.map((data, index) => (
 

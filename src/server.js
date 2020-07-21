@@ -58,8 +58,6 @@ server
       store.dispatch({ type: 'StoreAuth/SET_AUTH', data: { fetch: false, error: false, status: false } });
     }
 
-    console.log(store.getState(), req.session);
-
     const markup = renderToString(
       <Provider store={store}>
         <StaticRouter context={context} location={req.url}>

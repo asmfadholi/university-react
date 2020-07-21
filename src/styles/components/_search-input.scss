@@ -9,5 +9,12 @@
   &__input {
     /* stylelint-disable-next-line */
     padding-left: 35px !important;
+    width: 100% !important;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .search-field {
+    flex-direction: column;
   }
 }

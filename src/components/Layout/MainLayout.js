@@ -2,9 +2,6 @@ import {
   Footer, Header, Content,
 } from 'components/Layout';
 import { Container } from 'reactstrap';
-// import {
-//   Content, Footer, Header, Sidebar,
-// } from 'components/Layout';
 import React from 'react';
 
 function MainLayout(props) {

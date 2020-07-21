@@ -2,7 +2,7 @@ import React from 'react';
 import { MdSearch } from 'react-icons/md';
 import { Form, Input } from 'reactstrap';
 
-const SearchInput = () => (
+const SearchInput = (props) => (
   <Form inline className="cr-search-form" onSubmit={(e) => e.preventDefault()}>
     <MdSearch
       size="20"
@@ -11,7 +11,7 @@ const SearchInput = () => (
     <Input
       type="search"
       className="cr-search-form__input"
-      placeholder="Search..."
+      placeholder={props.placeholder}
     />
   </Form>
 );
