@@ -18,6 +18,8 @@
 import buildingLogo from 'assets/img/logo/building.jpg';
 import React from 'react';
 import SearchInput from 'components/SearchInput';
+import imageSearch from 'assets/img/logo/search.png';
+import Skeleton from 'react-loading-skeleton';
 
 // import { Bar, Line } from 'react-chartjs-2';
 import {
@@ -128,6 +130,29 @@ class DashboardPage extends React.Component {
             </Col>
           ))}
 
+          { props.isFetchList && [1, 2, 3, 4].map((data) => (
+            <Col lg={3} md={4} sm={6} xs={12} className="mb-3" key={data}>
+              <Skeleton height={500} />
+            </Col>
+
+          )) }
+
+          { (!props.isFetchList && props.listData.length === 0) && (
+            <Col lg={12} className="d-flex justify-content-center">
+              <div>
+                <img src={imageSearch} alt="data not found" />
+                <br />
+                <p className="text-center">
+                  Oops,
+                  {' '}
+                  { props.isFetchError ? 'something went wrong' : 'data is not found'}
+                </p>
+              </div>
+
+            </Col>
+
+          ) }
+
         </Row>
 
       </>
@@ -137,6 +162,7 @@ class DashboardPage extends React.Component {
 
 const mapStateToProps = (state) => ({
   isFetchList: state.StoreUniversity.listUniversity.fetch,
+  isFetchError: state.StoreUniversity.listUniversity.error,
   listData: state.StoreUniversity.listUniversity.data,
   reRender: state.StoreUniversity.listUniversity.reRender,
 });

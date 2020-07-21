@@ -6,7 +6,7 @@ const pre = 'StoreUniversity/';
 
 const initState = {
   listUniversity: {
-    fetch: false, error: false, data: null, reRender: false,
+    fetch: false, error: false, data: [], reRender: false,
   },
 };
 
@@ -44,11 +44,11 @@ export const actionUniversity = {
       success.message = 'Get list university successfully';
       error.message = 'Get list university failed';
       try {
-        dispatch(this.receiveData({ fetch: true, error: false, data: null }, 'SET_LIST_UNIVERSITY'));
+        dispatch(this.receiveData({ fetch: true, error: false, data: [] }, 'SET_LIST_UNIVERSITY'));
         const res = await Api.universitySearch(req);
         dispatch(this.receiveData({ fetch: false, error: false, data: res }, 'SET_LIST_UNIVERSITY'));
       } catch (err) {
-        dispatch(this.receiveData({ fetch: false, error: true, data: null }, 'SET_LIST_UNIVERSITY'));
+        dispatch(this.receiveData({ fetch: false, error: true, data: [] }, 'SET_LIST_UNIVERSITY'));
         dispatch(actionNotification.showNotification(error));
         throw err;
       }
