@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 import http from 'http';
 
 require('dotenv').config();
