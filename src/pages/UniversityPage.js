@@ -50,25 +50,51 @@ import { actionUniversity } from 'stores/index';
 // );
 
 class DashboardPage extends React.Component {
+  state = {
+    inputCountry: 'ghana',
+    inputUniversity: 'and',
+  }
+
   componentDidMount() {
     // this is needed, because InfiniteCalendar forces window scroll
-    const { props } = this;
     window.scrollTo(0, 0);
+    this.requestSearchUniversity();
+  }
+
+  requestSearchUniversity = () => {
+    const { props, state } = this;
     const req = {
-      name: 'and',
-      country: 'ghana',
+      name: state.inputUniversity,
+      country: state.inputCountry,
     };
     props.requestListUniversity(req);
   }
 
+  onChange = (newValue, name) => {
+    this.setState((prevState) => ({
+      ...prevState,
+      [`input${name}`]: newValue,
+    }));
+  }
+
   render() {
-    const { props } = this;
+    const { props, state } = this;
     return (
       <>
         <div className="d-flex align-content-center justify-content-center search-field">
-          <SearchInput placeholder="University" />
-          <SearchInput placeholder="Country" />
-          <Button>Search</Button>
+          <SearchInput
+            placeholder="University"
+            onChange={this.onChange}
+            value={state.inputUniversity}
+            onSubmit={this.requestSearchUniversity}
+          />
+          <SearchInput
+            placeholder="Country"
+            onChange={this.onChange}
+            value={state.inputCountry}
+            onSubmit={this.requestSearchUniversity}
+          />
+          <Button onClick={this.requestSearchUniversity}>Search</Button>
         </div>
 
         <br />
