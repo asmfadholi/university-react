@@ -12,7 +12,6 @@ import './styles/reduction.scss';
 import AuthPage from 'pages/AuthPage';
 
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
-const BlankPage = React.lazy(() => import('./pages/BlankPage'));
 // const AuthPage = React.lazy(() => import('pages/AuthPage'));
 
 // middleware
@@ -37,9 +36,7 @@ class App extends React.Component {
 
   render() {
     const { props } = this;
-    // const pathName = window.location.pathname;
     const Layout = MainLayout;
-    console.log(window.location.pathname);
     return (
       <>
         <Switch>
@@ -61,14 +58,6 @@ class App extends React.Component {
                 exact
                 path="/"
                 component={DashboardPage}
-                appProps={{
-                  isAuthenticated: props.isAuthenticated,
-                }}
-              />
-              <AuthenticatedRoute
-                exact
-                path="/logout"
-                component={BlankPage}
                 appProps={{
                   isAuthenticated: props.isAuthenticated,
                 }}
