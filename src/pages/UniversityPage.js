@@ -72,7 +72,7 @@ class DashboardPage extends React.Component {
         </div>
 
         <br />
-        <Row>
+        <Row className="university-page">
           {props.listData && props.listData.map((data, index) => (
 
             <Col lg={3} md={4} sm={6} xs={12} className="mb-3" key={index}>
