@@ -7,6 +7,14 @@ import bodyParser from 'body-parser';
 import { renderToString } from 'react-dom/server';
 import store from './stores/index';
 import App from './App';
+import jwt from 'jsonwebtoken';
+import crud from './utils/crudjson';
+const fs = require('fs').promises;
+// const fetch = require('node-fetch');
+// let settings = { method: "Get" };
+let dataUSers = require('./assets/img/data/users.json');
+const CryptoJS = require('crypto-js');
+import dataUSerse from './assets/img/data/users.json';
 
 require('dotenv').config();
 
@@ -43,6 +51,37 @@ server.get('/user/logout', ({ session }, res) => {
   session.token = undefined;
   res.status(200).send({ error: false });
 });
+
+server.get('/data-dummy', async ({ session }, res) => {
+  const dataRes = await crud.createUSer({ name: 'Paman', email: 'paman@gamil.com', password: '123456' });
+  res.status(200).send(dataRes);
+});
+
+server.post('/register', async ({ body }, res) => {
+  const dataRes = await crud.createUSer(body);
+  if (dataRes.error) {
+    res.status(400).send(dataRes);
+  } else {
+    res.status(200).send(dataRes);
+  }
+});
+
+server.post('/login', async ({ body, session }, res) => {
+  const dataRes = await crud.findUser(body);
+  if (dataRes.error) {
+    res.status(400).send(dataRes);
+  } else {
+    session.token = dataRes.token;
+    dataRes.token = undefined;
+    dataRes.password = undefined;
+    res.status(200).send(dataRes);
+  }
+});
+
+// console.log(jwt.sign('username', 'servit'), 'sadsad', dataUSerse);
+// const enc = CryptoJS.AES.encrypt('req.password', process.env.SECRET).toString();
+// const dec = CryptoJS.AES.decrypt(enc, process.env.SECRET);
+// console.log(enc, dec, 'req.password', 'yess');
 
 server
   .disable('x-powered-by')
