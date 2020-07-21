@@ -1,0 +1,68 @@
+{
+  "name": "my-razzle-app",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "serve": "razzle start",
+    "build": "razzle build",
+    "heroku-postbuild": "npm run build",
+    "test": "razzle test --env=jsdom",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "@unicef/react-org-chart": "^0.3.4",
+    "axios": "^0.19.2",
+    "bootstrap": "4.3.1",
+    "chart.js": "2.7.2",
+    "classnames": "^2.2.6",
+    "d3-geo": "^1.11.3",
+    "d3-scale": "^3.2.1",
+    "dotenv": "^8.2.0",
+    "express": "4.17.1",
+    "express-session": "^1.17.1",
+    "faker": "^4.1.0",
+    "prop-types": "^15.7.2",
+    "razzle": "3.1.5",
+    "razzle-plugin-workbox": "^1.0.3",
+    "react": "16.13.1",
+    "react-chartjs-2": "^2.7.4",
+    "react-component-queries": "^2.3.0",
+    "react-d3-map": "^0.8.3",
+    "react-dom": "16.13.1",
+    "react-ga": "^2.5.7",
+    "react-icons": "^3.5.0",
+    "react-infinite-calendar": "^2.3.1",
+    "react-notification-system": "^0.2.17",
+    "react-redux": "^7.2.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "5.2.0",
+    "react-simple-maps": "^0.12.1",
+    "react-sizeme": "^2.5.2",
+    "reactstrap": "^7.1.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "victory": "^32.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "husky": "^4.2.5",
+    "is-heroku": "^2.0.0",
+    "razzle-plugin-scss": "^3.1.5",
+    "react-dev-utils": "^10.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}

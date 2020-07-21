@@ -1,0 +1,8 @@
+/src/server.js
+/src/index.js
+/node_modules/
+/build/
+/public/
+.git
+
+razzle.config.js
