@@ -4,6 +4,7 @@ export default {
   generateApi() {
     const api = axios.create({
       headers: {
+        baseURL: process.env.RAZZLE_RUNTIME_BASE_URL,
         'Content-Type': 'application/json',
       },
     });

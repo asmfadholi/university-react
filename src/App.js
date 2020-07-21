@@ -12,6 +12,7 @@ import './styles/reduction.scss';
 import AuthPage from 'pages/AuthPage';
 
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
+const UniversityPage = React.lazy(() => import('./pages/UniversityPage'));
 // const AuthPage = React.lazy(() => import('pages/AuthPage'));
 
 // middleware
@@ -58,6 +59,15 @@ class App extends React.Component {
                 exact
                 path="/"
                 component={DashboardPage}
+                appProps={{
+                  isAuthenticated: props.isAuthenticated,
+                }}
+              />
+
+              <GeneralRoute
+                exact
+                path="/university"
+                component={UniversityPage}
                 appProps={{
                   isAuthenticated: props.isAuthenticated,
                 }}
