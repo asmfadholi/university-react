@@ -2,8 +2,8 @@ import Avatar from 'components/Avatar';
 import { UserCard } from 'components/Card';
 import Notifications from 'components/Notifications';
 import SearchInput from 'components/SearchInput';
-import { notificationsData } from 'demos/header';
-import withBadge from 'hocs/withBadge';
+// import { notificationsData } from 'demos/header';
+// import withBadge from 'hocs/withBadge';
 import React from 'react';
 import {
   MdClearAll,
@@ -11,8 +11,8 @@ import {
   MdHelp,
   MdInsertChart,
   MdMessage,
-  MdNotificationsActive,
-  MdNotificationsNone,
+  // MdNotificationsActive,
+  // MdNotificationsNone,
   MdPersonPin,
   MdSettingsApplications,
 } from 'react-icons/md';
@@ -36,18 +36,18 @@ import { NavLink } from 'react-router-dom';
 
 const bem = bn.create('header');
 
-const MdNotificationsActiveWithBadge = withBadge({
-  size: 'md',
-  color: 'primary',
-  style: {
-    top: -10,
-    right: -10,
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  children: <small>5</small>,
-})(MdNotificationsActive);
+// const MdNotificationsActiveWithBadge = withBadge({
+//   size: 'md',
+//   color: 'primary',
+//   style: {
+//     top: -10,
+//     right: -10,
+//     display: 'inline-flex',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   children: <small>5</small>,
+// })(MdNotificationsActive);
 
 class Header extends React.Component {
   state = {
@@ -84,8 +84,8 @@ class Header extends React.Component {
 
   render() {
     const {
-      isNotificationConfirmed,
-      isOpenNotificationPopover,
+      // isNotificationConfirmed,
+      // isOpenNotificationPopover,
       isOpenUserCardPopover,
     } = this.state;
     return (
@@ -100,33 +100,7 @@ class Header extends React.Component {
         </Nav>
 
         <Nav navbar className={bem.e('nav-right')}>
-          <NavItem className="d-inline-flex">
-            <BSNavLink id="Popover1" className="position-relative">
-              {isNotificationConfirmed ? (
-                <MdNotificationsNone
-                  size={25}
-                  className="text-secondary can-click"
-                  onClick={this.toggleNotificationPopover}
-                />
-              ) : (
-                <MdNotificationsActiveWithBadge
-                  size={25}
-                  className="text-secondary can-click animated swing infinite"
-                  onClick={this.toggleNotificationPopover}
-                />
-              )}
-            </BSNavLink>
-            <Popover
-              placement="bottom"
-              isOpen={isOpenNotificationPopover}
-              toggle={this.toggleNotificationPopover}
-              target="Popover1"
-            >
-              <PopoverBody>
-                <Notifications notificationsData={notificationsData} />
-              </PopoverBody>
-            </Popover>
-          </NavItem>
+          <NavItem className="d-inline-flex" />
 
           <NavItem>
             <BSNavLink id="Popover2">
