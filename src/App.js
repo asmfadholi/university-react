@@ -1,4 +1,4 @@
-import { STATE_LOGIN, STATE_FORGOT_PASSWORD } from 'components/AuthForm';
+import { STATE_LOGIN, STATE_SIGNUP } from 'components/AuthForm';
 import { EmptyLayout, MainLayout, LayoutRoute } from 'components/Layout';
 import PageSpinner from 'components/PageSpinner';
 import React from 'react';
@@ -17,7 +17,7 @@ const UniversityPage = React.lazy(() => import('./pages/UniversityPage'));
 
 // middleware
 // const AuthenticatedRoute = React.lazy(() => import('./middleware/AuthenticatedRoute'));
-const UnauthenticatedRoute = React.lazy(() => import('./middleware/UnauthenticatedRoute'));
+// const UnauthenticatedRoute = React.lazy(() => import('./middleware/UnauthenticatedRoute'));
 const GeneralRoute = React.lazy(() => import('./middleware/GeneralRoute'));
 
 class App extends React.Component {
@@ -52,6 +52,17 @@ class App extends React.Component {
               <AuthPage {...propss} authState={STATE_LOGIN} />
             )}
           />
+          <LayoutRoute
+            exact
+            path="/register"
+            layout={EmptyLayout}
+            appProps={{
+              isAuthenticated: props.isAuthenticated,
+            }}
+            component={(propss) => (
+              <AuthPage {...propss} authState={STATE_SIGNUP} />
+            )}
+          />
 
           <Layout breakpoint={props.breakpoint} isAuthenticated={props.isAuthenticated}>
             <React.Suspense fallback={<PageSpinner />}>
@@ -68,16 +79,6 @@ class App extends React.Component {
                 exact
                 path="/university"
                 component={UniversityPage}
-                appProps={{
-                  isAuthenticated: props.isAuthenticated,
-                }}
-              />
-
-              <UnauthenticatedRoute
-                exact
-                path="/forgot-password"
-                component={AuthPage}
-                authState={STATE_FORGOT_PASSWORD}
                 appProps={{
                   isAuthenticated: props.isAuthenticated,
                 }}

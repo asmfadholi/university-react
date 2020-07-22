@@ -9,7 +9,9 @@ const { StoreAuth: store = {} } = preloadedState;
 const { isLogin } = store;
 
 const initState = {
-  isLogin: isLogin || { fetch: false, error: false, status: false },
+  isLogin: isLogin || {
+    fetch: false, error: false, status: false, name: null, email: null,
+  },
   isEmailExist: { fetch: false, error: false, status: false },
 };
 
@@ -60,6 +62,24 @@ export const actionAuth = {
         dispatch(actionNotification.showNotification(success));
       } catch (err) {
         dispatch(this.receiveData({ fetch: false, error: true, status: false }, 'SET_EMAIL_EXISTENCE'));
+        dispatch(actionNotification.showNotification(error));
+        throw err;
+      }
+    };
+  },
+  requestRegister(req) {
+    return async (dispatch) => {
+      const { success, error } = NOTIFICATION_OPTIONS.bottomCenter;
+      success.message = 'Account register successfully';
+      // error.message = 'Account failed to register';
+      try {
+        dispatch(this.receiveData({ fetch: true, error: false, status: false }, 'SET_AUTH'));
+        await Api.userRegister(req);
+        dispatch(this.receiveData({ fetch: false, error: false, status: true }, 'SET_AUTH'));
+        dispatch(actionNotification.showNotification(success));
+      } catch (err) {
+        dispatch(this.receiveData({ fetch: false, error: true, status: false }, 'SET_AUTH'));
+        error.message = err.message;
         dispatch(actionNotification.showNotification(error));
         throw err;
       }

@@ -12,8 +12,9 @@ const propsForm = {
       placeholder: 'your@email.com',
     },
   },
-  forgotPassword: {
-    usernameLabel: 'Find your email',
+  signUp: {
+    nameLabel: 'Name',
+    usernameLabel: 'Email',
     usernameInputProps: {
       type: 'email',
       placeholder: 'your@email.com',
@@ -22,9 +23,9 @@ const propsForm = {
 };
 class AuthPage extends React.Component {
   get propsForm() {
-    const { login, forgotPassword } = propsForm;
+    const { login, signUp } = propsForm;
     const { props } = this;
-    return props.authState === STATE_LOGIN ? login : forgotPassword;
+    return props.authState === STATE_LOGIN ? login : signUp;
   }
 
   get isFetch() {
@@ -38,7 +39,7 @@ class AuthPage extends React.Component {
       props.history.push('/login');
     } else {
       const { props } = this;
-      props.history.push('/forgot-password');
+      props.history.push('/register');
     }
   };
 
@@ -52,7 +53,7 @@ class AuthPage extends React.Component {
     if (props.authState === STATE_LOGIN) {
       props.requestLogin(state);
     } else {
-      props.requestForgotPassword(state);
+      props.requestRegister(state);
     }
   };
 
@@ -94,6 +95,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   requestLogin: (req) => dispatch(actionAuth.requestLogin(req)),
   requestForgotPassword: (req) => dispatch(actionAuth.requestForgotPassword(req)),
+  requestRegister: (req) => dispatch(actionAuth.requestRegister(req)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPage);

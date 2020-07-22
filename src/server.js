@@ -7,14 +7,7 @@ import bodyParser from 'body-parser';
 import { renderToString } from 'react-dom/server';
 import store from './stores/index';
 import App from './App';
-import jwt from 'jsonwebtoken';
 import crud from './utils/crudjson';
-const fs = require('fs').promises;
-// const fetch = require('node-fetch');
-// let settings = { method: "Get" };
-let dataUSers = require('./assets/img/data/users.json');
-const CryptoJS = require('crypto-js');
-import dataUSerse from './assets/img/data/users.json';
 
 require('dotenv').config();
 
@@ -27,21 +20,13 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
 server.use(session({
-  secret: 'keyboard cat',
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false, httpOnly: true },
 }));
 
-server.post('/user/login', ({ session }, res) => {
-  session.token = true;
-  setTimeout(() => {
-    res.status(200).send({ error: false });
-  }, 1500);
-});
-
 server.post('/user/forgot-password', ({}, res) => {
-  // session.token = true;
   setTimeout(() => {
     res.status(200).send({ error: false });
   }, 1500);
@@ -49,39 +34,35 @@ server.post('/user/forgot-password', ({}, res) => {
 
 server.get('/user/logout', ({ session }, res) => {
   session.token = undefined;
+  session.email = undefined;
+  session.name = undefined;
   res.status(200).send({ error: false });
 });
 
-server.get('/data-dummy', async ({ session }, res) => {
-  const dataRes = await crud.createUSer({ name: 'Paman', email: 'paman@gamil.com', password: '123456' });
-  res.status(200).send(dataRes);
-});
-
-server.post('/register', async ({ body }, res) => {
+server.post('/user/register', async ({ body }, res) => {
   const dataRes = await crud.createUSer(body);
   if (dataRes.error) {
     res.status(400).send(dataRes);
   } else {
-    res.status(200).send(dataRes);
-  }
-});
-
-server.post('/login', async ({ body, session }, res) => {
-  const dataRes = await crud.findUser(body);
-  if (dataRes.error) {
-    res.status(400).send(dataRes);
-  } else {
-    session.token = dataRes.token;
     dataRes.token = undefined;
     dataRes.password = undefined;
     res.status(200).send(dataRes);
   }
 });
 
-// console.log(jwt.sign('username', 'servit'), 'sadsad', dataUSerse);
-// const enc = CryptoJS.AES.encrypt('req.password', process.env.SECRET).toString();
-// const dec = CryptoJS.AES.decrypt(enc, process.env.SECRET);
-// console.log(enc, dec, 'req.password', 'yess');
+server.post('/user/login', async ({ body, session }, res) => {
+  const dataRes = await crud.findUser(body);
+  if (dataRes.error) {
+    res.status(400).send(dataRes);
+  } else {
+    session.token = dataRes.token;
+    session.email = dataRes.email;
+    session.name = dataRes.name;
+    dataRes.token = undefined;
+    dataRes.password = undefined;
+    res.status(200).send(dataRes);
+  }
+});
 
 server
   .disable('x-powered-by')
@@ -89,12 +70,12 @@ server
   .get('/*', (req, res) => {
     const context = {};
 
-    const { token } = req.session;
+    const { token, name, email } = req.session;
 
     if (token) {
-      store.dispatch({ type: 'StoreAuth/SET_AUTH', data: { fetch: false, error: false, status: true } });
+      store.dispatch({ type: 'StoreAuth/SET_AUTH', data: { fetch: false, error: false, status: true, name, email }});
     } else {
-      store.dispatch({ type: 'StoreAuth/SET_AUTH', data: { fetch: false, error: false, status: false } });
+      store.dispatch({ type: 'StoreAuth/SET_AUTH', data: { fetch: false, error: false, status: false, name: null, email: null }});
     }
 
     const markup = renderToString(

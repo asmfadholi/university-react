@@ -6,12 +6,13 @@ import {
 } from 'reactstrap';
 
 export const STATE_LOGIN = 'LOGIN';
-// export const STATE_SIGNUP = 'SIGNUP';
-export const STATE_FORGOT_PASSWORD = 'FORGOT_PASSWORD';
+export const STATE_SIGNUP = 'SIGNUP';
+// export const STATE_FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 
 class AuthForm extends React.Component {
   state = {
-    email: 'aa',
+    name: '',
+    email: '',
     password: '',
   }
 
@@ -20,10 +21,15 @@ class AuthForm extends React.Component {
     return props.authState === STATE_LOGIN;
   }
 
-  get isForgotPassword() {
+  get isSignup() {
     const { props } = this;
-    return props.authState === STATE_FORGOT_PASSWORD;
+    return props.authState === STATE_SIGNUP;
   }
+
+  // get isForgotPassword() {
+  //   const { props } = this;
+  //   return props.authState === STATE_FORGOT_PASSWORD;
+  // }
 
   changeAuthState = (authState) => (event) => {
     event.preventDefault();
@@ -53,8 +59,8 @@ class AuthForm extends React.Component {
       return 'Login';
     }
 
-    if (!buttonText && this.isForgotPassword) {
-      return 'Find';
+    if (!buttonText && this.isSignup) {
+      return 'Register';
     }
 
     return buttonText;
@@ -63,6 +69,8 @@ class AuthForm extends React.Component {
   render() {
     const {
       showLogo,
+      nameLabel,
+      nameInputProps,
       usernameLabel,
       usernameInputProps,
       passwordLabel,
@@ -87,17 +95,23 @@ class AuthForm extends React.Component {
             />
           </div>
         )}
+
+        {this.isSignup && (
+          <FormGroup>
+            <Label for={nameLabel}>{nameLabel}</Label>
+            <Input {...nameInputProps} onChange={(e) => this.onChange(e, 'name')} value={state.name} />
+          </FormGroup>
+        )}
+
         <FormGroup>
           <Label for={usernameLabel}>{usernameLabel}</Label>
           <Input {...usernameInputProps} onChange={(e) => this.onChange(e, 'email')} value={state.email} />
         </FormGroup>
 
-        {this.isLogin && (
-          <FormGroup>
-            <Label for={passwordLabel}>{passwordLabel}</Label>
-            <Input {...passwordInputProps} onChange={(e) => this.onChange(e, 'password')} value={state.password} />
-          </FormGroup>
-        )}
+        <FormGroup>
+          <Label for={passwordLabel}>{passwordLabel}</Label>
+          <Input {...passwordInputProps} onChange={(e) => this.onChange(e, 'password')} value={state.password} />
+        </FormGroup>
 
         {this.isLogin && (
           <FormGroup check>
@@ -124,8 +138,8 @@ class AuthForm extends React.Component {
           <h6>or</h6>
           <h6>
             {this.isLogin ? (
-              <a href="#forgot-password" onClick={this.changeAuthState(STATE_FORGOT_PASSWORD)}>
-                Forgot Password?
+              <a href="#forgot-password" onClick={this.changeAuthState(STATE_SIGNUP)}>
+                Register?
               </a>
             ) : (
               <a href="#login" onClick={this.changeAuthState(STATE_LOGIN)}>
@@ -141,8 +155,10 @@ class AuthForm extends React.Component {
 }
 
 AuthForm.propTypes = {
-  authState: PropTypes.oneOf([STATE_LOGIN, STATE_FORGOT_PASSWORD]).isRequired,
+  authState: PropTypes.oneOf([STATE_LOGIN, STATE_SIGNUP]).isRequired,
   showLogo: PropTypes.bool,
+  nameLabel: PropTypes.string,
+  nameInputProps: PropTypes.object,
   usernameLabel: PropTypes.string,
   usernameInputProps: PropTypes.object,
   passwordLabel: PropTypes.string,
@@ -156,7 +172,12 @@ AuthForm.defaultProps = {
   // eslint-disable-next-line
   authState: 'LOGIN',
   showLogo: true,
-  usernameLabel: 'Emaily',
+  nameLabel: 'Name',
+  nameInputProps: {
+    type: 'text',
+    placeholder: 'your name',
+  },
+  usernameLabel: 'Email',
   usernameInputProps: {
     type: 'email',
     placeholder: 'your@email.com',
