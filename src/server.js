@@ -24,7 +24,7 @@ server.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true },
+  cookie: { secure: false, httpOnly: true },
 }));
 
 server.post('/user/forgot-password', ({}, res) => {
