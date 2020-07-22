@@ -19,11 +19,12 @@ const server = express();
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
+server.set('trust proxy', 1)
 server.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false, httpOnly: true },
+  cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true },
 }));
 
 server.post('/user/forgot-password', ({}, res) => {
