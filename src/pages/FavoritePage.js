@@ -45,7 +45,7 @@ class DashboardPage extends React.Component {
                       if (!props.isLogin) {
                         props.history.push('/login?redirect=/university');
                       } else {
-                        props.toggleFavoriteList(index);
+                        props.requestDeleteFavoriteUniversity(data, index);
                       }
                     }}
                   />
@@ -114,7 +114,9 @@ const mapDispatchToProps = (dispatch) => ({
   requestListFavoriteUniversity: () => {
     dispatch(actionUniversity.requestListFavoriteUniversity());
   },
-  toggleFavoriteList: (req) => dispatch(actionUniversity.receiveData(req, 'SET_FAVORITE_UNIVERSITY')),
+  requestDeleteFavoriteUniversity: (req, index) => {
+    dispatch(actionUniversity.requestDeleteFavoriteUniversity(req, index));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);

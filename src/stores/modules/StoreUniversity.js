@@ -32,13 +32,10 @@ export default function StoreUniversity(state = initState, action) {
     }
     case `${pre}UNSET_FAVORITE_UNIVERSITY`: {
       const { listFavoriteUniversity } = state;
-      listFavoriteUniversity.data.splice(action.data, 1);
+      listFavoriteUniversity.data.splice(action.data.data, 1);
       return {
         ...state,
-        listFavoriteUniversity: {
-          ...listFavoriteUniversity,
-          reRender: !listFavoriteUniversity.reRender,
-        },
+        ...listFavoriteUniversity,
       };
     }
     default:
