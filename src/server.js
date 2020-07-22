@@ -39,11 +39,14 @@ server.get('/user/logout', ({ session }, res) => {
   res.status(200).send({ error: false });
 });
 
-server.post('/user/register', async ({ body }, res) => {
+server.post('/user/register', async ({ body, session }, res) => {
   const dataRes = await crud.createUSer(body);
   if (dataRes.error) {
     res.status(400).send(dataRes);
   } else {
+    session.token = dataRes.token;
+    session.email = dataRes.email;
+    session.name = dataRes.name;
     dataRes.token = undefined;
     dataRes.password = undefined;
     res.status(200).send(dataRes);
@@ -66,6 +69,21 @@ server.post('/user/login', async ({ body, session }, res) => {
 
 server.get('/newsletter', async ({}, res) => {
   const dataRes = await crud.findNewsLetterAll();
+  if (dataRes.error) {
+    res.status(400).send(dataRes);
+  } else {
+    res.status(200).send(dataRes);
+  }
+});
+
+server.post('/newsletter', async ({body, session}, res) => {
+
+  if (!session.token) return res.status(401).send({ error: true, message: 'You are unauthorized' });
+  const user = {
+    ...session
+  };
+  const newReq = { ...body, user };
+  const dataRes = await crud.createNewsLetter(newReq);
   if (dataRes.error) {
     res.status(400).send(dataRes);
   } else {

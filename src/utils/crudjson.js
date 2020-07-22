@@ -27,6 +27,20 @@ export default {
     }
   },
 
+  async createNewsLetter(req) {
+    try {
+      if (!req.title || !req.message) return { error: true, message: 'All field are mandatory' };
+      req.user.cookie = undefined;
+      req.user.token = undefined;
+      req.createdAt = new Date();
+      await this.saveDataTo(req, 'newsLetter');
+
+      return req;
+    } catch (err) {
+      return { error: true, message: 'something went wrong', data: err };
+    }
+  },
+
   async findUserBy(req, by) {
     const newRes = await fs.readFile((__dirname, './src/assets/img/data/users.json'), 'utf8');
     const json = JSON.parse(newRes);

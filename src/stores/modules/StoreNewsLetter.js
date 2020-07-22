@@ -14,6 +14,19 @@ export default function StoreUniversity(state = initState, action) {
   switch (action.type) {
     case `${pre}SET_LIST_NEWSLETTER`:
       return { ...state, listNewsLetter: action.data };
+    case `${pre}ADD_LIST_NEWSLETTER`:
+      return {
+        ...state,
+        listNewsLetter:
+        {
+          ...state.listNewsLetter,
+          ...action.data,
+          data: [
+            ...state.listNewsLetter.data,
+            ...action.data.data,
+          ],
+        },
+      };
     default:
       return state;
   }
@@ -38,6 +51,24 @@ export const actionNewsLetter = {
         dispatch(this.receiveData({ fetch: false, error: false, data: res }, 'SET_LIST_NEWSLETTER'));
       } catch (err) {
         dispatch(this.receiveData({ fetch: false, error: true, data: [] }, 'SET_LIST_NEWSLETTER'));
+        dispatch(actionNotification.showNotification(error));
+        throw err;
+      }
+    };
+  },
+
+  requestCreateNewsLetter(req) {
+    return async (dispatch) => {
+      const { success, error } = NOTIFICATION_OPTIONS.topCenter;
+      success.message = 'Create newsletter successfully';
+      error.message = 'Create newsletter failed';
+      try {
+        dispatch(this.receiveData({ fetch: true, error: false, data: [] }, 'ADD_LIST_NEWSLETTER'));
+        await Api.newsLetterCreate(req);
+        dispatch(this.receiveData({ fetch: false, error: false, data: [req] }, 'ADD_LIST_NEWSLETTER'));
+      } catch (err) {
+        error.message = err.message;
+        dispatch(this.receiveData({ fetch: false, error: true, data: [] }, 'ADD_LIST_NEWSLETTER'));
         dispatch(actionNotification.showNotification(error));
         throw err;
       }
