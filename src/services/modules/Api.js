@@ -10,7 +10,15 @@ export default {
     });
     api.interceptors.response.use(
       (response) => response.data,
-      (error) => Promise.reject(error.response.data),
+      (error) => {
+        const isExpected = error.response
+        && error.response.status >= 400 && error.response.status < 500;
+        if (isExpected) {
+          return Promise.reject(error.response.data);
+        }
+        const newError = { error: true, message: 'Something went wrong' };
+        return Promise.reject(newError);
+      },
     );
     return api;
   },
@@ -22,7 +30,15 @@ export default {
     });
     api.interceptors.response.use(
       (response) => response.data,
-      (error) => Promise.reject(error.response.data),
+      (error) => {
+        const isExpected = error.response
+        && error.response.status >= 400 && error.response.status < 500;
+        if (isExpected) {
+          return Promise.reject(error.response.data);
+        }
+        const newError = { error: true, message: 'Something went wrong' };
+        return Promise.reject(newError);
+      },
     );
     return api;
   },

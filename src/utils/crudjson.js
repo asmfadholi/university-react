@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 
+import { schemaLogin, schemaRegister, schemaNewsLetter } from './schemaValidation';
+
 require('dotenv').config();
 
 const CryptoJS = require('crypto-js');
@@ -9,7 +11,8 @@ const fs = require('fs').promises;
 export default {
   async createUSer(req) {
     try {
-      if (!req.name || !req.email || !req.password) return { error: true, message: 'All field are mandatory' };
+      const { error } = schemaRegister.validate(req);
+      if (error) return { error: true, data: error, message: error.details[0].message };
 
       const isEmailExist = await this.findUserBy(req, 'email');
       if (isEmailExist[0]) return { error: true, message: 'Email already exist' };
@@ -137,7 +140,8 @@ export default {
 
   async createNewsLetter(req) {
     try {
-      if (!req.title || !req.message) return { error: true, message: 'All field are mandatory' };
+      const { error } = schemaNewsLetter.validate(req);
+      if (error) return { error: true, data: error, message: error.details[0].message };
       req.user.cookie = undefined;
       req.user.token = undefined;
       req.createdAt = new Date();
@@ -178,7 +182,8 @@ export default {
 
   async findUser(req) {
     try {
-      if (!req.email || !req.password) return { error: true, message: 'All field are mandatory' };
+      const { error } = schemaLogin.validate(req);
+      if (error) return { error: true, data: error, message: error.details[0].message };
 
       const findOne = await this.findUserBy(req, 'email');
 
