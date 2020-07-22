@@ -3,7 +3,7 @@ const isHeroku = require('is-heroku');
 const entries = require('object.entries');
 
 module.exports = {
-  plugins: ['scss', 'workbox'],
+  plugins: ['scss'],
   modify: (baseConfig, { target, dev }, webpack) => {
     /* make a copy of config */
     const config = { ...baseConfig };
