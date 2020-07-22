@@ -32,11 +32,15 @@ server.post('/user/forgot-password', ({}, res) => {
   }, 1500);
 });
 
-server.get('/user/logout', ({ session }, res) => {
-  session.token = undefined;
-  session.email = undefined;
-  session.name = undefined;
-  res.status(200).send({ error: false });
+server.get('/user/logout', async (req, res) => {
+  try {
+    req.session.destroy(() => {
+      res.clearCookie(process.env.SECRET);
+      res.status(200).send({ error: false });
+    });
+  } catch (e) {
+    res.status(400).send({ error: true, message: 'Logged out failed', data: e });
+  }
 });
 
 server.post('/user/register', async ({ body, session }, res) => {

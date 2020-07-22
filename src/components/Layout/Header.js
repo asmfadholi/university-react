@@ -143,9 +143,9 @@ class Header extends React.Component {
               >
                 <PopoverBody className="p-0 border-light">
                   <UserCard
-                    title="Jane"
-                    subtitle="jane@jane.com"
-                    text="Last updated 3 mins ago"
+                    title={props.name}
+                    subtitle={props.email}
+                    text=""
                     className="border-light"
                   >
                     <ListGroup flush>
@@ -201,6 +201,8 @@ class Header extends React.Component {
 const mapStateToProps = (state) => ({
   isFetchLogout: state.StoreAuth.isLogin.fetch,
   isLogin: state.StoreAuth.isLogin.status,
+  name: state.StoreAuth.isLogin.name,
+  email: state.StoreAuth.isLogin.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
