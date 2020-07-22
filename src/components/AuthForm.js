@@ -113,16 +113,6 @@ class AuthForm extends React.Component {
           <Input {...passwordInputProps} onChange={(e) => this.onChange(e, 'password')} value={state.password} />
         </FormGroup>
 
-        {this.isLogin && (
-          <FormGroup check>
-            <Label check>
-              <Input type="checkbox" />
-              {' '}
-              Remember me
-            </Label>
-          </FormGroup>
-        )}
-
         <hr />
         <Button
           size="lg"
