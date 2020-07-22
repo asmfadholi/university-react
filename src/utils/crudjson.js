@@ -74,6 +74,22 @@ export default {
       return { error: true, message: 'something went wrong', data: err };
     }
   },
+
+  async findNewsLetter() {
+    const newRes = await fs.readFile((__dirname, './src/assets/img/data/users.json'), 'utf8');
+    const json = JSON.parse(newRes);
+    const findAll = json.newsLetter;
+    return findAll;
+  },
+
+  async findNewsLetterAll() {
+    try {
+      const findAll = await this.findNewsLetter();
+      return findAll;
+    } catch (err) {
+      return { error: true, message: 'something went wrong', data: err };
+    }
+  },
   //   async createNewsLetter() {
   //     try {
 

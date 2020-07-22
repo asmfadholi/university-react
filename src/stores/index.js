@@ -6,6 +6,7 @@ import StoreTodo from './modules/StoreTodo';
 import StoreNotification, { actionNotification } from './modules/StoreNotification';
 import StoreAuth, { actionAuth } from './modules/StoreAuth';
 import StoreUniversity, { actionUniversity } from './modules/StoreUniversity';
+import StoreNewsLetter, { actionNewsLetter } from './modules/StoreNewsLetter';
 
 let composeEnhancers = compose;
 
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   StoreNotification,
   StoreAuth,
   StoreUniversity,
+  StoreNewsLetter,
 });
 
 const store = createStore(
@@ -32,4 +34,5 @@ export {
   actionNotification,
   actionAuth,
   actionUniversity,
+  actionNewsLetter,
 };

@@ -64,6 +64,15 @@ server.post('/user/login', async ({ body, session }, res) => {
   }
 });
 
+server.get('/newsletter', async ({}, res) => {
+  const dataRes = await crud.findNewsLetterAll();
+  if (dataRes.error) {
+    res.status(400).send(dataRes);
+  } else {
+    res.status(200).send(dataRes);
+  }
+});
+
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
