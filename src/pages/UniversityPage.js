@@ -106,8 +106,16 @@ class DashboardPage extends React.Component {
             <Col lg={3} md={4} sm={6} xs={12} className="mb-3" key={index}>
               <Card>
                 <span className="favorite-button">
-                  <MdFavorite className={data.isLove ? 'love-tag' : ''} onClick={() => props.toggleFavoriteList(index)} />
-
+                  <MdFavorite
+                    className={data.isLove ? 'love-tag' : ''}
+                    onClick={() => {
+                      if (!props.isLogin) {
+                        props.history.push('/login?redirect=/university');
+                      } else {
+                        props.toggleFavoriteList(index);
+                      }
+                    }}
+                  />
                 </span>
                 <CardImg top src={buildingLogo} />
                 <CardBody>
@@ -165,6 +173,7 @@ const mapStateToProps = (state) => ({
   isFetchError: state.StoreUniversity.listUniversity.error,
   listData: state.StoreUniversity.listUniversity.data,
   reRender: state.StoreUniversity.listUniversity.reRender,
+  isLogin: state.StoreAuth.isLogin.status,
 });
 
 const mapDispatchToProps = (dispatch) => ({
