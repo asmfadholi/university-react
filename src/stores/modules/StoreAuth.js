@@ -40,8 +40,10 @@ export const actionAuth = {
       error.message = 'email or password is invalid';
       try {
         dispatch(this.receiveData({ fetch: true, error: false, status: false }, 'SET_AUTH'));
-        await Api.userLogin(req);
-        dispatch(this.receiveData({ fetch: false, error: false, status: true }, 'SET_AUTH'));
+        const res = await Api.userLogin(req);
+        dispatch(this.receiveData({
+          fetch: false, error: false, status: true, ...res,
+        }, 'SET_AUTH'));
         dispatch(actionNotification.showNotification(success));
       } catch (err) {
         dispatch(this.receiveData({ fetch: false, error: true, status: false }, 'SET_AUTH'));

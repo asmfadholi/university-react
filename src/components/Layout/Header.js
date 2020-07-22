@@ -1,5 +1,5 @@
 import Avatar from 'components/Avatar';
-import { UserCard } from 'components/Card';
+import UserCard from 'components/Card/UserCard';
 import React from 'react';
 import {
   MdExitToApp,

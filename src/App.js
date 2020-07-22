@@ -17,7 +17,6 @@ const FavoritePage = React.lazy(() => import('pages/FavoritePage'));
 
 // middleware
 const AuthenticatedRoute = React.lazy(() => import('./middleware/AuthenticatedRoute'));
-// const UnauthenticatedRoute = React.lazy(() => import('./middleware/UnauthenticatedRoute'));
 const GeneralRoute = React.lazy(() => import('./middleware/GeneralRoute'));
 
 class App extends React.Component {
