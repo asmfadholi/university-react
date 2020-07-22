@@ -35,7 +35,11 @@ export default function StoreUniversity(state = initState, action) {
       listFavoriteUniversity.data.splice(action.data.data, 1);
       return {
         ...state,
-        ...listFavoriteUniversity,
+        listFavoriteUniversity: {
+          ...listFavoriteUniversity,
+          reRender: !listFavoriteUniversity.reRender,
+        },
+
       };
     }
     default:
