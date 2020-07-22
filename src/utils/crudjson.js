@@ -67,6 +67,59 @@ export default {
     }
   },
 
+  async addFavoriteUniversity(req) {
+    try {
+      const findUser = await this.findUserBy(req.user, 'email');
+
+      if (findUser[0].universities) {
+        let indexData;
+        findUser[0].universities.forEach((data, index) => {
+          if (data.name === req.data.name) {
+            indexData = Number(index);
+          }
+        });
+
+        if (typeof indexData === 'number') {
+          findUser[0].universities[indexData] = req.data;
+        } else {
+          findUser[0].universities.push(req.data);
+        }
+      } else {
+        findUser[0].universities = [req.data];
+      }
+
+      await this.updateUser(findUser[0]);
+
+      return req.data;
+    } catch (err) {
+      return { error: true, message: 'something went wrong', data: err };
+    }
+  },
+
+  async deleteFavoriteUniversity(req) {
+    try {
+      const findUser = await this.findUserBy(req.user, 'email');
+
+      if (findUser[0].universities) {
+        let indexData;
+        findUser[0].universities.forEach((data, index) => {
+          if (data.name === req.data.name) {
+            indexData = Number(index);
+          }
+        });
+
+        if (typeof indexData === 'number') {
+          findUser[0].universities.splice(indexData, 1);
+        }
+      }
+      await this.updateUser(findUser[0]);
+
+      return req.data;
+    } catch (err) {
+      return { error: true, message: 'something went wrong', data: err };
+    }
+  },
+
   async updateUser(req) {
     const newRes = await fs.readFile((__dirname, './src/assets/img/data/users.json'), 'utf8');
     const json = JSON.parse(newRes);

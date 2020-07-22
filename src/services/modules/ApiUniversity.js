@@ -10,6 +10,16 @@ export default {
     return api.post('/university/favorite', req).then((res) => res);
   },
 
+  universityFavoriteAdd(req) {
+    const api = this.generateApiLocal();
+    return api.post('/university/favorite/add', req).then((res) => res);
+  },
+
+  universityFavoriteDelete(req) {
+    const api = this.generateApiLocal();
+    return api.post('/university/favorite/delete', req).then((res) => res);
+  },
+
   universityFavoriteList() {
     const api = this.generateApiLocal();
     return api.get('/university/favorite').then((res) => res);
