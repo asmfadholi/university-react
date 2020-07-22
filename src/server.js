@@ -34,10 +34,8 @@ server.post('/user/forgot-password', ({}, res) => {
 
 server.get('/user/logout', async (req, res) => {
   try {
-    req.session.destroy(() => {
-      res.clearCookie(process.env.SECRET);
-      res.status(200).send({ error: false });
-    });
+    await req.session.destroy();
+    res.status(200).send({ error: false });
   } catch (e) {
     res.status(400).send({ error: true, message: 'Logged out failed', data: e });
   }
