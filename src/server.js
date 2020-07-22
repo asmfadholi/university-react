@@ -91,6 +91,37 @@ server.post('/newsletter', async ({body, session}, res) => {
   }
 });
 
+server.post('/university/favorite', async ({body, session}, res) => {
+
+  if (!session.token) return res.status(401).send({ error: true, message: 'You are unauthorized' });
+  const user = {
+    ...session
+  };
+  const newReq = { data: {...body}, user };
+  const dataRes = await crud.toggleFavoriteUniversity(newReq);
+  if (dataRes.error) {
+    res.status(400).send(dataRes);
+  } else {
+    res.status(200).send(dataRes);
+  }
+});
+
+server.get('/university/favorite', async ({ session}, res) => {
+
+  if (!session.token) return res.status(401).send({ error: true, message: 'You are unauthorized' });
+  const user = {
+    ...session
+  };
+  const newReq = { user };
+  const dataRes = await crud.listFavoriteUniversity(newReq);
+  
+  if (dataRes.error) {
+    res.status(400).send(dataRes);
+  } else {
+    res.status(200).send(dataRes);
+  }
+});
+
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))

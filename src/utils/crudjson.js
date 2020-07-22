@@ -27,6 +27,61 @@ export default {
     }
   },
 
+  async listFavoriteUniversity(req) {
+    try {
+      const findUser = await this.findUserBy(req.user, 'email');
+
+      const { universities = [] } = findUser[0];
+      return universities;
+    } catch (err) {
+      return { error: true, message: 'something went wrong', data: err };
+    }
+  },
+
+  async toggleFavoriteUniversity(req) {
+    try {
+      const findUser = await this.findUserBy(req.user, 'email');
+
+      if (findUser[0].universities) {
+        let indexData;
+        findUser[0].universities.forEach((data, index) => {
+          if (data.name === req.data.name) {
+            indexData = Number(index);
+          }
+        });
+
+        if (typeof indexData === 'number') {
+          findUser[0].universities.splice(indexData, 1);
+        } else {
+          findUser[0].universities.push(req.data);
+        }
+      } else {
+        findUser[0].universities = [req.data];
+      }
+
+      await this.updateUser(findUser[0]);
+
+      return req.data;
+    } catch (err) {
+      return { error: true, message: 'something went wrong', data: err };
+    }
+  },
+
+  async updateUser(req) {
+    const newRes = await fs.readFile((__dirname, './src/assets/img/data/users.json'), 'utf8');
+    const json = JSON.parse(newRes);
+    const users = json.users.map((data) => {
+      if (data.email === req.email) {
+        return req;
+      }
+      return data;
+    });
+    json.users = users;
+    const newData = JSON.stringify(json);
+    await fs.writeFile((__dirname, './src/assets/img/data/users.json'), newData);
+    return req;
+  },
+
   async createNewsLetter(req) {
     try {
       if (!req.title || !req.message) return { error: true, message: 'All field are mandatory' };

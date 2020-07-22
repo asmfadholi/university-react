@@ -13,10 +13,10 @@ import AuthPage from 'pages/AuthPage';
 
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const UniversityPage = React.lazy(() => import('./pages/UniversityPage'));
-// const AuthPage = React.lazy(() => import('pages/AuthPage'));
+const FavoritePage = React.lazy(() => import('pages/FavoritePage'));
 
 // middleware
-// const AuthenticatedRoute = React.lazy(() => import('./middleware/AuthenticatedRoute'));
+const AuthenticatedRoute = React.lazy(() => import('./middleware/AuthenticatedRoute'));
 // const UnauthenticatedRoute = React.lazy(() => import('./middleware/UnauthenticatedRoute'));
 const GeneralRoute = React.lazy(() => import('./middleware/GeneralRoute'));
 
@@ -79,6 +79,15 @@ class App extends React.Component {
                 exact
                 path="/university"
                 component={UniversityPage}
+                appProps={{
+                  isAuthenticated: props.isAuthenticated,
+                }}
+              />
+
+              <AuthenticatedRoute
+                exact
+                path="/favorite"
+                component={FavoritePage}
                 appProps={{
                   isAuthenticated: props.isAuthenticated,
                 }}

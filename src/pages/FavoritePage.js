@@ -1,31 +1,12 @@
-// import { AnnouncementCard, TodosCard } from 'components/Card';
-// import HorizontalAvatarList from 'components/HorizontalAvatarList';
-// import MapWithBubbles from 'components/MapWithBubbles';
-// import Page from 'components/Page';
-// import ProductMedia from 'components/ProductMedia';
-// import SupportTicket from 'components/SupportTicket';
-// import UserProgressTable from 'components/UserProgressTable';
-// import { IconWidget, NumberWidget } from 'components/Widget';
-// import { getStackLineChart, stackLineChartOptions } from 'demos/chartjs';
-// import {
-//   avatarsData,
-//   chartjs,
-//   productsData,
-//   supportTicketsData,
-//   todosData,
-//   userProgressTableData,
-// } from 'demos/dashboardPage';
 import buildingLogo from 'assets/img/logo/building.jpg';
 import React from 'react';
-import SearchInput from 'components/SearchInput';
 import imageSearch from 'assets/img/logo/search.png';
 import Skeleton from 'react-loading-skeleton';
 
-// import { Bar, Line } from 'react-chartjs-2';
 import {
   MdFavorite,
 } from 'react-icons/md';
-// import InfiniteCalendar from 'react-infinite-calendar';
+
 import {
   Card,
   CardBody,
@@ -36,70 +17,22 @@ import {
   CardImg,
   Row,
 } from 'reactstrap';
-// import { getColor } from 'utils/colors';
+
 import { connect } from 'react-redux';
 import { actionUniversity } from 'stores/index';
-// import { NOTIFICATION_OPTIONS } from 'utils/constants';
-// import { fetchProfileData } from './fakeApi';
-
-// const resource = fetchProfileData();
-
-// const today = new Date();
-// const lastWeek = new Date(
-//   today.getFullYear(),
-//   today.getMonth(),
-//   today.getDate() - 7,
-// );
 
 class DashboardPage extends React.Component {
-  state = {
-    inputCountry: 'ghana',
-    inputUniversity: 'and',
-  }
-
   componentDidMount() {
     // this is needed, because InfiniteCalendar forces window scroll
+    const { props } = this;
     window.scrollTo(0, 0);
-    this.requestSearchUniversity();
-  }
-
-  requestSearchUniversity = () => {
-    const { props, state } = this;
-    const req = {
-      name: state.inputUniversity,
-      country: state.inputCountry,
-    };
-    props.requestListUniversity(req);
-  }
-
-  onChange = (newValue, name) => {
-    this.setState((prevState) => ({
-      ...prevState,
-      [`input${name}`]: newValue,
-    }));
+    props.requestListFavoriteUniversity();
   }
 
   render() {
-    const { props, state } = this;
+    const { props } = this;
     return (
       <>
-        <div className="d-flex align-content-center justify-content-center search-field">
-          <SearchInput
-            placeholder="University"
-            onChange={this.onChange}
-            value={state.inputUniversity}
-            onSubmit={this.requestSearchUniversity}
-          />
-          <SearchInput
-            placeholder="Country"
-            onChange={this.onChange}
-            value={state.inputCountry}
-            onSubmit={this.requestSearchUniversity}
-          />
-          <Button onClick={this.requestSearchUniversity}>Search</Button>
-        </div>
-
-        <br />
         <Row className="university-page">
           {props.listData && props.listData.map((data, index) => (
 
@@ -112,10 +45,7 @@ class DashboardPage extends React.Component {
                       if (!props.isLogin) {
                         props.history.push('/login?redirect=/university');
                       } else {
-                        const { isLove = false } = data;
-                        // eslint-disable-next-line
-                        data.isLove = isLove;
-                        props.requestToggleFavoriteUniversity(data, index);
+                        props.toggleFavoriteList(index);
                       }
                     }}
                   />
@@ -172,18 +102,19 @@ class DashboardPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  isFetchList: state.StoreUniversity.listUniversity.fetch,
-  isFetchError: state.StoreUniversity.listUniversity.error,
-  listData: state.StoreUniversity.listUniversity.data,
-  reRender: state.StoreUniversity.listUniversity.reRender,
+  isFetchList: state.StoreUniversity.listFavoriteUniversity.fetch,
+  isFetchError: state.StoreUniversity.listFavoriteUniversity.error,
+  listData: state.StoreUniversity.listFavoriteUniversity.data,
+  reRender: state.StoreUniversity.listFavoriteUniversity.reRender,
   isLogin: state.StoreAuth.isLogin.status,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   requestListUniversity: (req) => dispatch(actionUniversity.requestListUniversity(req)),
-  requestToggleFavoriteUniversity: (req, index) => {
-    dispatch(actionUniversity.requestToggleFavoriteUniversity(req, index));
+  requestListFavoriteUniversity: () => {
+    dispatch(actionUniversity.requestListFavoriteUniversity());
   },
+  toggleFavoriteList: (req) => dispatch(actionUniversity.receiveData(req, 'SET_FAVORITE_UNIVERSITY')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);
