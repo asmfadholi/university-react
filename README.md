@@ -15,6 +15,8 @@ Then open http://localhost:5000/ to see your app. Your console should look like 
 
 ---
 
+### ✨ University React [Demo](http://university-react.herokuapp.com/)
+
 Below is a list of commands you will probably find useful.
 
 ### `npm run build` or `yarn build`
@@ -38,7 +40,7 @@ By default, runs tests related to files changed since the last commit.
 ### `npm run lint`
 
 Runs the eslint and give you information about all lint error on the terminal
-Eslint only investigate file *.js in folder of `src/`
+Eslint only investigate file `*.js` in folder of `src/`
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ### Adding Environment Variables In `.env`
