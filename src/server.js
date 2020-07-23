@@ -13,8 +13,11 @@ require('dotenv').config();
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 const session = require('express-session');
+const compression = require('compression');
 
 const server = express();
+
+server.use(compression());
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
