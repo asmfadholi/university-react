@@ -196,13 +196,13 @@ server
         <meta name="description" content="This is an example of a meta description. This will often show up in search results."></head>
         ${
   assets.client.css
-    ? `<link rel="stylesheet" href="${assets.client.css}">`
+    ? `<link rel="stylesheet" href="${assets.client.css}" async>`
     : ''
 }
         ${
   process.env.NODE_ENV === 'production'
-    ? `<script src="${assets.client.js}" defer></script>`
-    : `<script src="${assets.client.js}" defer crossorigin></script>`
+    ? `<script src="${assets.client.js}" defer async></script>`
+    : `<script src="${assets.client.js}" defer crossorigin async></script>`
 }
     </head>
     <body>
