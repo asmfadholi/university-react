@@ -55,8 +55,8 @@
     "husky": "^4.2.5",
     "is-heroku": "^2.0.0",
     "razzle-plugin-manifest": "^1.0.2",
+    "razzle-plugin-pwa": "^2.2.3",
     "razzle-plugin-scss": "^3.1.5",
-    "razzle-plugin-serviceworker": "^1.0.3",
     "react-dev-utils": "^10.2.1"
   },
   "husky": {
