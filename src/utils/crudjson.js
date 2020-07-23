@@ -140,14 +140,17 @@ export default {
 
   async createNewsLetter(req) {
     try {
-      const { error } = schemaNewsLetter.validate(req);
+      delete req.data.user;
+      const { error } = schemaNewsLetter.validate(req.data);
       if (error) return { error: true, data: error, message: error.details[0].message };
-      req.user.cookie = undefined;
-      req.user.token = undefined;
-      req.createdAt = new Date();
-      await this.saveDataTo(req, 'newsLetter');
+      req.data.user = {};
+      req.data.user.name = req.user.name;
+      req.data.user.email = req.user.email;
 
-      return req;
+      req.createdAt = new Date();
+      await this.saveDataTo(req.data, 'newsLetter');
+
+      return req.data;
     } catch (err) {
       return { error: true, message: 'something went wrong', data: err };
     }

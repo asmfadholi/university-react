@@ -88,7 +88,7 @@ server.post('/newsletter', async ({body, session}, res) => {
   const user = {
     ...session
   };
-  const newReq = { ...body, user };
+  const newReq = { data: { ...body }, user };
   const dataRes = await crud.createNewsLetter(newReq);
   if (dataRes.error) {
     res.status(400).send(dataRes);

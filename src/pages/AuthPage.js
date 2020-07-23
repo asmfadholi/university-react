@@ -51,9 +51,11 @@ class AuthPage extends React.Component {
   onSubmit = (state) => {
     const { props } = this;
     if (props.authState === STATE_LOGIN) {
-      props.requestLogin(state);
+      const { email, password } = state;
+      props.requestLogin({ email, password });
     } else {
-      props.requestRegister(state);
+      const { name, email, password } = state;
+      props.requestRegister({ name, email, password });
     }
   };
 

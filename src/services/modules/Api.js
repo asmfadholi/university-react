@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store, { actionAuth } from 'stores';
 
 export default {
   generateApi() {
@@ -34,6 +35,9 @@ export default {
         const isExpected = error.response
         && error.response.status >= 400 && error.response.status < 500;
         if (isExpected) {
+          if (error.response.status === 401) {
+            store.dispatch(actionAuth.requestLogout());
+          }
           return Promise.reject(error.response.data);
         }
         const newError = { error: true, message: 'Something went wrong' };

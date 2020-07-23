@@ -66,6 +66,7 @@ export const actionNewsLetter = {
         dispatch(this.receiveData({ fetch: true, error: false, data: [] }, 'ADD_LIST_NEWSLETTER'));
         await Api.newsLetterCreate(req);
         dispatch(this.receiveData({ fetch: false, error: false, data: [req] }, 'ADD_LIST_NEWSLETTER'));
+        dispatch(actionNotification.showNotification(success));
       } catch (err) {
         error.message = err.message;
         dispatch(this.receiveData({ fetch: false, error: true, data: [] }, 'ADD_LIST_NEWSLETTER'));
