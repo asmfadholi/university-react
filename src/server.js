@@ -201,8 +201,8 @@ server
 }
         ${
   process.env.NODE_ENV === 'production'
-    ? `<script src="${assets.client.js}" defer async></script>`
-    : `<script src="${assets.client.js}" defer crossorigin async></script>`
+    ? `<script src="${assets.client.js}" defer></script>`
+    : `<script src="${assets.client.js}" defer crossorigin></script>`
 }
     </head>
     <body>
