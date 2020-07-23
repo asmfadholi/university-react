@@ -4,6 +4,7 @@ const isHeroku = require('is-heroku');
 
 module.exports = {
   plugins: [
+    'manifest',
     'scss',
     {
       name:'serviceworker',
