@@ -1,9 +1,17 @@
 const path = require('path');
 const isHeroku = require('is-heroku');
-const entries = require('object.entries');
+// const entries = require('object.entries');
 
 module.exports = {
-  plugins: ['scss'],
+  plugins: [
+    'scss',
+    {
+      name:'serviceworker',
+      options: {
+          autoUpdate: true
+      }
+    }
+  ],
   modify: (baseConfig, { target, dev }, webpack) => {
     /* make a copy of config */
     const config = { ...baseConfig };

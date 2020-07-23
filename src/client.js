@@ -3,9 +3,12 @@ import React from 'react';
 import { hydrate } from 'react-dom';
 import { register } from 'razzle-plugin-workbox/service-worker';
 import { Provider } from 'react-redux';
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 import store from 'stores/index';
 import App from './App';
+
+OfflinePluginRuntime.install();
 
 const getBasename = () => `/${process.env.RAZZLE_RUNTIME_PUBLIC_URL.split('/').pop()}`;
 
